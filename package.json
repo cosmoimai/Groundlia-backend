@@ -1,0 +1,24 @@
+{
+  "name": "groundlia",
+  "version": "1.0.0",
+  "description": "this back end of groundlia",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cosmoimai/Groundlia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cosmoimai/Groundlia/issues"
+  },
+  "homepage": "https://github.com/cosmoimai/Groundlia#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.11.5",
+    "validator": "^13.5.1"
+  }
+}
