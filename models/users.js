@@ -3,13 +3,13 @@ const validator = require("validator");
 
 const User = mongoose.model('User',{
     name:{
-        type:String,
+        type: String,
         trim: true,
         required: true,
         unique: true,  
     },
     email: {
-        type: "String",
+        type: String,
         required: true,
         unique: true,
         trim: true,
@@ -20,10 +20,28 @@ const User = mongoose.model('User',{
             }
         },
     },
-    location:{
-        type:String,
+    location: {
+        type: String,
         trim: true,
         required: true,
+    },
+    organisercode: {
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,  
+    },
+    vollentiercode:{
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,  
+    },
+    watchercode:{
+        type: String,
+        trim: true,
+        required: true,
+        unique: true,  
     },
 })
 
