@@ -45,16 +45,21 @@ const User = mongoose.model('User',{
     },
 })
 
-// const me = new User({
-//     name: "Andrew",
-//     email: "abhishek.jee2019@gmail.com",
-//     location: "nanhe randi khana",
-// })
+const me = new User({
+    name: "Andrew",
+    email: "abhishek.jee2019@gmail.com",
+    location: "nanhe khana",
+    organisercode: "abcd",
+    vollentiercode: "abcd",
+    watchercode: "abcd",
+})
 
-// me.save().then(()=>{
-//     console.log(me);
-// }).catch((err)=>{
-//     console.log("You have entered email address that is already present.please enter another email address")
-// })
+me.save().then(()=>{
+    console.log(me);
+}).catch((err)=>{
+    console.log(err);
+    console.log("You have entered email address that is already present.please enter another email address")
+})
+
 
 module.exports = User;

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-mongoose.connect("mongodb://127.0.0.1:27017/groundlia-organiser", {
+mongoose.connect("mongodb+srv://abhishekbhaware:abhishekbhaware@groundlia-organiser.fnt6r.mongodb.net/groundlia-organiser?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
