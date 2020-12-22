@@ -1,0 +1,188 @@
+const express = require("express");
+const Scoreresults = require("../models/Scoreresults")
+const Cricket_Results = require("../models/Cricket_Results")
+const badminton_profile = require("../models/badminton_profile");
+const badminton_results = require("../models/badminton_results");
+const router = new express.Router();
+
+router.post("/badminton/singles/result", async (req,res) =>{
+    console.log(req.body);
+
+    const username1 = req.body.username1;
+    const username2 = req.body.username2;
+    const points1 = req.body.points1;
+    const points2 = req.body.points2;
+
+    const player1 = await badminton_profile.findOne({username: req.body.username1})
+    const player2 = await badminton_profile.findOne({username: req.body.username2})
+
+    player1.Singles.Matches++;
+    player2.Singles.Matches++;
+
+    let winner
+
+    if(points1>points2)
+    {
+        player1.Singles.Won++;
+        winner = username1
+    }
+    else{
+        player2.Singles.Won++;
+        winner = username2
+    }
+
+    player1.save().then(()=>{
+        console.log(player1);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("Something went wrong try again")
+    })
+
+    player2.save().then(()=>{
+        console.log(player2);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("Something went wrong try again")
+    })
+
+    var d = new Date();
+
+    const currentmatch = new badminton_results({
+        Held_on: `${d.getDate()} ${d.getMonth()} ${d.getFullYear()} time ${d.getHours()}:${d.getMinutes()}`,
+        Username1: `${username1}`,
+        Username2: `${username2}`,
+        Won: `${winner}`
+    })
+    currentmatch.save().then(()=>{
+        console.log(currentmatch);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("You have entered email address that is already present.please enter another email address")
+    })
+
+    return res.send({msg: "success"});
+})
+
+router.post("/badminton/register", async (req,res) => {
+
+    const newplayer = new badminton_profile({
+        username: req.body.username,
+        Singles: { Won: 0, Matches: 0, },
+        Doubles: { Won: 0, Matches: 0, },
+    })
+    
+    newplayer.save().then(()=>{
+        console.log(newplayer);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("please try with different username");
+        res.status(400).send({msg: "try different username"});
+    })
+
+    return res.status(200).send({msg: "success"})
+})
+
+router.post("/badminton/doubles/result", async (req,res) =>{
+    console.log(req.body);
+
+    const username1 = req.body.username1;
+    const username2 = req.body.username2;
+    const username3 = req.body.username3;
+    const username4 = req.body.username4;
+    const points1 = req.body.points1;
+    const points2 = req.body.points2;
+
+    const player1 = await badminton_profile.findOne({username: req.body.username1});
+    const player2 = await badminton_profile.findOne({username: req.body.username2});
+    const player3 = await badminton_profile.findOne({username: req.body.username3});
+    const player4 = await badminton_profile.findOne({username: req.body.username4});
+
+    player1.Singles.Matches++;
+    player2.Singles.Matches++;
+    player3.Singles.Matches++;
+    player4.Singles.Matches++;
+
+    let winner
+
+    if(points1>points2)
+    {
+        player1.Singles.Won++;
+        player2.Singles.Won++;
+        winner = `${username1} ${username2}`
+    }
+    else{
+        player3.Singles.Won++;
+        player4.Singles.Won++;
+        winner = `${username3} ${username4}`
+    }
+
+    player1.save().then(()=>{
+        console.log(player1);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("Something went wrong try again")
+    })
+
+    player2.save().then(()=>{
+        console.log(player2);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("Something went wrong try again")
+    })
+
+    player3.save().then(()=>{
+        console.log(player3);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("Something went wrong try again")
+    })
+
+    player4.save().then(()=>{
+        console.log(player4);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("Something went wrong try again")
+    })
+
+    var d = new Date();
+
+    const currentmatch = new badminton_results({
+        Held_on: `${d.getDate()} ${d.getMonth()} ${d.getFullYear()} time ${d.getHours()}:${d.getMinutes()}`,
+        Username1: `${username1} ${username2}`,
+        Username2: `${username3} ${username4}`,
+        Won: `${winner}`
+    })
+
+    currentmatch.save().then(()=>{
+        console.log(currentmatch);
+    }).catch((err)=>{
+        console.log(err);
+        console.log("You have entered email address that is already present.please enter another email address")
+    })
+
+    return res.send({msg: "success"});
+})
+
+router.get("/badminton/getresult", async (req,res) => {
+    console.log(req.body)
+
+    const allresults = await badminton_results.find();
+    res.status(200).send(allresults);
+} )
+
+router.delete("/badminton/deleteprofile", async (req,res) => {
+    console.log(req.body);
+
+    const deleteaccount = await badminton_profile.findOneAndDelete({username: req.body.username}).then((err,done)=> {
+        if(err)
+        {
+            return res.status(404).send({msg: "fail"})
+        }
+        console.log({msg: "success"})
+        console.log(done);
+        return res.status(200).send({msg: "success"})
+    }).catch((e)=> {
+        console.log(e);
+        return res.status(400).send({msg: "fail"})
+    })
+})

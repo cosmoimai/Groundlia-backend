@@ -6,17 +6,16 @@ const Scoreresults = mongoose.model('ScoreResults',{
         type: String,
         trim: true,
         required: true,
-        unique: true,  
     },
     Location: {
         type: String,
         required: true,
         trim: true,
     },
-    Total_match: {
+    Slot: {
         type: Number,
         required: true,
-        trim: true,
+        unique: true,
     },
     Game: {
         WhoWinToss: {
@@ -31,7 +30,7 @@ const Scoreresults = mongoose.model('ScoreResults',{
             type: Number,
             trim: true,
         },
-        Team1: {
+        Team_A: {
             Mode: {
                 type: String,
                 trim: true,
@@ -44,20 +43,20 @@ const Scoreresults = mongoose.model('ScoreResults',{
                 type: Number,
                 trim: true,
             },
-            Current_Over: {
+            Current_balls: {
                 type: Number,
                 trim: true,
             },
-            Members: {
-            type: String,
-            trim: true,
+            Current_Over: {
+                type: Number,
+                trim: true,
             },
             Captain: {
             type: String,
             trim: true,
             }
         },
-        Team2: {
+        Team_B: {
             Mode: {
                 type: String,
                 trim: true,
@@ -70,13 +69,13 @@ const Scoreresults = mongoose.model('ScoreResults',{
                 type: Number,
                 trim: true,
             },
-            Current_Over: {
+            Current_balls: {
                 type: Number,
                 trim: true,
             },
-            Members: {
-            type: String,
-            trim: true,
+            Current_Over: {
+                type: Number,
+                trim: true,
             },
             Captain: {
             type: String,
@@ -90,6 +89,37 @@ const Scoreresults = mongoose.model('ScoreResults',{
 //     Organiser: "IIIC",
 //     Location: "IIITA pavilion",
 //     Total_match: 60,
+// })
+
+// me.save().then(()=>{
+//     console.log(me);
+// }).catch((err)=>{
+//     console.log("FUCK")
+// })
+
+// const me = new Scoreresults({
+//     Organiser: "IITK",
+//     Location: "IITK pavalion",
+//     Slot: 11,
+//     Game: {
+//         WhoWinToss: "A",
+//         Winner: "progress",
+//         Total_Over: 10,
+//         Team1: {
+//             Mode: "Bowling",
+//             Score: 113,
+//             Wicket: 1,
+//             Current_Over: 8,
+//             Captain: "nn",
+//         },
+//         Team2: {
+//             Mode: "Batting",
+//             Score: 101,
+//             Wicket: 5,
+//             Current_Over: 9,
+//             Captain: "mm",
+//         }
+//     },
 // })
 
 // me.save().then(()=>{
