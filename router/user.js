@@ -9,7 +9,7 @@ router.get("/", async (req,res)=>{
     res.send("hello from the /");
 })
 
-router.get("/organisers", async (req,res) => {
+router.get("/organisers/:name/:email/:location", async (req,res) => {
 
     var orgcode = generator.generate({
         length: 6,
@@ -26,7 +26,9 @@ router.get("/organisers", async (req,res) => {
 
     console.log
     const user = new User({
-        ...req.body,
+        name: req.params['name'],
+        email: req.params['email'],
+        location: req.params['location'],
         organisercode: orgcode,
         vollentiercode: volcode,
         watchercode: watcode,
@@ -66,19 +68,19 @@ router.get("/organisers", async (req,res) => {
     }
 })
 
-router.post("/mainpage", async (req,res)=>{
+router.post("/mainpage/:code", async (req,res)=>{
     console.log(req.body);
 
-    const orgmember = await User.findOne({organisercode: req.body.code});
-    const volmember = await User.findOne({vollentiercode: req.body.code});
-    const watmember = await User.findOne({watchercode: req.body.code});
+    const orgmember = await User.findOne({organisercode: req.params['code']});
+    const volmember = await User.findOne({vollentiercode: req.params['code']});
+    const watmember = await User.findOne({watchercode: req.params['code']});
     
     console.log(orgmember);
     if(orgmember!==null)
     {
         try{
             res.status(201).send({
-                orgmember: orgmember.name,
+                orgmember: orgmember,
                 location: orgmember.location,
                 identity: "Organiser",
             });
@@ -91,7 +93,7 @@ router.post("/mainpage", async (req,res)=>{
     {
         try{
             res.status(201).send({
-                orgmember: volmember.name,
+                orgmember: volmember,
                 location: volmember.location,
                 identity: "Volunteer",
             });
@@ -104,7 +106,7 @@ router.post("/mainpage", async (req,res)=>{
     {
         try{
             res.status(201).send({
-                orgmember: watmember.name,
+                orgmember: watmember,
                 location: watmember.location,
                 identity: "Watcher",
             });
