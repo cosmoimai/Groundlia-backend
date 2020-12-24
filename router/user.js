@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/users")
 const router = new express.Router();
 var generator = require('generate-password');
+const livebadmintonmatch = require("../models/livebadmintonmatch");
 
 router.get("/", async (req,res)=>{
     console.log("hello");
@@ -31,15 +32,37 @@ router.get("/organisers", async (req,res) => {
         watchercode: watcode,
     });
 
+    let bad_match = new livebadmintonmatch({
+        organisercode: orgcode,
+        vollentiercode: volcode,
+        watchercode: watcode,
+        Team_A: {
+            Members: [],
+            Score: 0,
+        },
+        Team_B: {
+            Members: [],
+            Score: 0,
+        }
+    })
+
+    try{
+        await bad_match.save();
+    } catch(e){
+        return res.status(400).send({msg: "Fail"});
+    }
+
+
     try {
         await user.save();
-        res.status(201).send({    
+        return res.status(201).send({  
+        msg: "Success",  
         organisercode: orgcode,
         vollentiercode: volcode,
         watchercode: watcode
         });
     } catch (e){
-        res.status(400).send(e);
+        return res.status(400).send(e);
     }
 })
 

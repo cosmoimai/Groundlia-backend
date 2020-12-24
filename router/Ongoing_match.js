@@ -132,10 +132,12 @@ router.post("/startmatch", async (req,res)=>{
 
             me.save().then(()=>{
                 console.log(me);
+                return res.status(200).send(me);
             }).catch((err)=>{
                 console.log("FUCK")
+                return res.status(400).send(err);
             })
-
+            break;
         }
     }
     
