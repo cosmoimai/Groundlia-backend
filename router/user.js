@@ -60,7 +60,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         return res.status(201).send({  
         msg: "Success",  
         organisercode: orgcode,
-        vollentiercode: volcode,
+        volunteercode: volcode,
         watchercode: watcode
         });
     } catch (e){
@@ -72,7 +72,7 @@ router.get("/mainpage/:code", async (req,res)=>{
     console.log(req.body);
 
     const orgmember = await User.findOne({organisercode: req.params['code']});
-    const volmember = await User.findOne({vollentiercode: req.params['code']});
+    const volmember = await User.findOne({volunteercode: req.params['code']});
     const watmember = await User.findOne({watchercode: req.params['code']});
     
     console.log(orgmember);

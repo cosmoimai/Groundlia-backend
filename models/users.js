@@ -31,7 +31,7 @@ const User = mongoose.model('User',{
         required: true,
         unique: true,  
     },
-    vollentiercode:{
+    volunteercode:{
         type: String,
         trim: true,
         required: true,
