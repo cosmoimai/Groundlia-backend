@@ -24,7 +24,6 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         numbers: true
     });
 
-    console.log
     const user = new User({
         name: req.params['name'],
         email: req.params['email'],
@@ -49,6 +48,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
     })
 
     try{
+        console.log("hello");
         await bad_match.save();
     } catch(e){
         return res.status(400).send({msg: "Fail"});
