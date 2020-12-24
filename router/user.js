@@ -30,13 +30,13 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         email: req.params['email'],
         location: req.params['location'],
         organisercode: orgcode,
-        vollentiercode: volcode,
+        volunteercode: volcode,
         watchercode: watcode,
     });
 
     let bad_match = new livebadmintonmatch({
         organisercode: orgcode,
-        vollentiercode: volcode,
+        volunteercode: volcode,
         watchercode: watcode,
         Team_A: {
             Members: [],
