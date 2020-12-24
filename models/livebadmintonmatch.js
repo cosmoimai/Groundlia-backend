@@ -8,7 +8,7 @@ const livebadmintonmatch = mongoose.model('livebadmintonmatch',{
         required: true,
         unique: true,  
     },
-    vollentiercode:{
+    volunteercode:{
         type: String,
         trim: true,
         required: true,
