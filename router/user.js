@@ -68,7 +68,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
     }
 })
 
-router.post("/mainpage/:code", async (req,res)=>{
+router.get("/mainpage/:code", async (req,res)=>{
     console.log(req.body);
 
     const orgmember = await User.findOne({organisercode: req.params['code']});
