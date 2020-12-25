@@ -42,7 +42,7 @@ router.get("/cricket/:code", async (req,res) =>{
 
 router.post("/cricket/update/:code/:winner/:new", async (req,res)=> {
 
-    const orgmember = await livecricketscore.findOne({organisercode: req.params['code']});
+    let orgmember = await livecricketscore.findOne({organisercode: req.params['code']});
     if(orgmember===undefined||orgmember===null)
     {
         return res.status(400).send({msg: "Enter the corect code"});

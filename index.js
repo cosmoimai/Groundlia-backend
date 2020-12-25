@@ -8,6 +8,7 @@ const Players_record = require("./models/Players_record");
 const Getresult = require("./router/Getresults");
 const badminton_router = require("./router/badminton_router");
 const basketball_router = require("./router/basketball_router");
+const cricket_router = require("./router/cricket_router");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -17,6 +18,7 @@ app.use(Ongoing_match);
 app.use(Getresult);
 app.use(badminton_router);
 app.use(basketball_router);
+app.use(cricket_router);
 // app.post("")
 
 app.listen(port, () => {
