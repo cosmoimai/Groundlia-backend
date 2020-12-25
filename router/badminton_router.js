@@ -226,7 +226,7 @@ router.get("/badminton/:code", async (req,res) =>{
     
 })
 
-router.post("/badminton/update/:code", async (req,res)=> {
+router.post("/badminton/update/:code/:winner/:new", async (req,res)=> {
 
     const orgmember = await livebadmintonmatch.findOne({organisercode: req.params['code']});
     if(orgmember===undefined||orgmember===null)
@@ -244,6 +244,9 @@ router.post("/badminton/update/:code", async (req,res)=> {
     B = req.body.Team_B.Members
     orgmember.Team_B.Members = B
     orgmember.Team_B.Score = req.body.Team_B.Score
+
+    orgmember.winner = req.body.winner
+    orgmember.new = req.body.new
     console.log(orgmember);
     
     try{
@@ -253,6 +256,8 @@ router.post("/badminton/update/:code", async (req,res)=> {
                 "Team_A.Score":  req.body.Team_A.Score,
                 "Team_B.Members": B,
                 "Team_B.Score":  req.body.Team_B.Score,
+                "winner": req.body.winner,
+                "new": req.body.new
             }
         })
     }catch(e){

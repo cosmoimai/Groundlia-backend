@@ -38,6 +38,8 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         organisercode: orgcode,
         vollentiercode: volcode,
         watchercode: watcode,
+        winner: "Not Yet",
+        new: "not yet",
         Team_A: {
             Members: [],
             Score: 0,
@@ -52,6 +54,8 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         organisercode: orgcode,
         vollentiercode: volcode,
         watchercode: watcode,
+        winner: "Not Yet",
+        new: "not yet",
         Team_A: {
             Members: [],
             Score: 0,
@@ -64,20 +68,41 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
 
     try{
         console.log("hello");
-        await bad_match.save();
+        await bad_match.save().then((err,done)=>{
+            if(err)
+            {
+                console.log("error",err)
+            }
+            console.log("done",done)
+        });
+        console.log("Bad")
     } catch(e){
         return res.status(400).send({msg: "Fail"});
     }
 
     try{
-        await bas_match.save();
+        await bas_match.save().then((err,done)=>{
+            if(err)
+            {
+                console.log("error",err)
+            }
+            console.log("done",done)
+        });
+        console.log("bas");
     } catch(e){
         return res.status(400).send(e);
     }
 
 
     try {
-        await user.save();
+
+        await user.save().then((err,done)=>{
+            if(err)
+            {
+                console.log("error",err)
+            }
+            console.log("here",done)
+        });
         return res.status(201).send({  
         msg: "Success",  
         organisercode: orgcode,

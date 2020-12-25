@@ -22,9 +22,9 @@ router.get("/basketball/:code", async (req,res) =>{
             return res.status(200).send({data: orgmember, msg: "Success", role: "Organiser"})
         }
         else if(volmember!==undefined){
-            return res.status(200).send({...volmember, msg: "Success", role: "Volnteer"})
+            return res.status(200).send({data: volmember, msg: "Success", role: "Volnteer"})
         }else if (watmember!==undefined){
-            return res.status(200).send({...watmember, msg: "Success", role: "Watcher"})
+            return res.status(200).send({data: watmember, msg: "Success", role: "Watcher"})
         }
         else{
             return res.status(404).send({ msg: "Fali"})
@@ -34,7 +34,7 @@ router.get("/basketball/:code", async (req,res) =>{
     
 })
 
-router.post("/basketball/update/:code", async (req,res)=> {
+router.post("/basketball/update/:code/:winner/:new", async (req,res)=> {
 
     const orgmember = await livebasketballscore.findOne({organisercode: req.params['code']});
     if(orgmember===undefined||orgmember===null)
@@ -52,6 +52,9 @@ router.post("/basketball/update/:code", async (req,res)=> {
     B = req.body.Team_B.Members
     orgmember.Team_B.Members = B
     orgmember.Team_B.Score = req.body.Team_B.Score
+
+    orgmember.winner = req.body.winner
+    orgmember.new = req.body.new
     console.log(orgmember);
     
     try{
@@ -61,6 +64,8 @@ router.post("/basketball/update/:code", async (req,res)=> {
                 "Team_A.Score":  req.body.Team_A.Score,
                 "Team_B.Members": B,
                 "Team_B.Score":  req.body.Team_B.Score,
+                "winner": req.body.winner,
+                "new": req.body.new
             }
         })
     }catch(e){
