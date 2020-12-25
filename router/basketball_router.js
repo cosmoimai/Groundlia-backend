@@ -92,43 +92,52 @@ router.get("/basketball/endresult/:code", async (req,res)=> {
     let num2 = getresult.Team_B.Score;
 
     if(num1 > num2){
-        winner = "Team_A"
+        winner = "Team 1"
     }else if(num1 < num2){
-        winner = "Team_B"
+        winner = "Team 2"
     }else{
         winner = "draw"
     }
 
-    var d = new Date();
-
-    const sendresult = new livebasketballresult({
-        organisercode: getresult.organisercode,
-        vollentiercode: getresult.vollentiercode,
-        watchercode: getresult.watchercode,
-        winner: winner,
-        "Team_A.Members": getresult.Team_A.Members,
-        "Team_A.Score": getresult.Team_A.Score,
-        "Team_B.Members": getresult.Team_B.Members,
-        "Team_B.Score": getresult.Team_B.Score,
-        Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
-    })
-
-    console.log(sendresult);
-
-    await livebasketballscore.updateOne({organisercode: req.params['code']}, {
+    await livebasketballscore.findOneAndUpdate({organisercode: cd},{
         $set: {
-            "Team_A.Members": [],
-            "Team_A.Score":  0,
-            "Team_B.Members": [],
-            "Team_B.Score":  0,
-            "winner": winner,
-            "new": "no",
+            winner: winner
         }
     })
 
+    getresult = await livebasketballscore.findOne({organisercode: cd});
+    console.log("hello");
+
+    var d = new Date();
+
+    // const sendresult = new livebasketballresult({
+    //     organisercode: getresult.organisercode,
+    //     vollentiercode: getresult.vollentiercode,
+    //     watchercode: getresult.watchercode,
+    //     winner: winner,
+    //     "Team_A.Members": getresult.Team_A.Members,
+    //     "Team_A.Score": getresult.Team_A.Score,
+    //     "Team_B.Members": getresult.Team_B.Members,
+    //     "Team_B.Score": getresult.Team_B.Score,
+    //     Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    // })
+
+    // console.log(sendresult);
+
+    // await livebasketballscore.updateOne({organisercode: req.params['code']}, {
+    //     $set: {
+    //         "Team_A.Members": [],
+    //         "Team_A.Score":  0,
+    //         "Team_B.Members": [],
+    //         "Team_B.Score":  0,
+    //         "winner": winner,
+    //         "new": "no",
+    //     }
+    // })
+
     try{
         await sendresult.save();
-        res.status(200).send(winner);
+        res.status(200).send(getresult);
     }catch(e){
         console.log("error");
         res.status(400).send({msg: "fail"});

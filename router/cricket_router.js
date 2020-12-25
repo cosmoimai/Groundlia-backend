@@ -105,21 +105,30 @@ router.get("/cricket/endresult/:code", async (req,res)=> {
         winner = "draw"
     }
 
-    var d = new Date();
-
-    const sendresult = new livecricketresult({
-        organisercode: getresult.organisercode,
-        vollentiercode: getresult.vollentiercode,
-        watchercode: getresult.watchercode,
-        winner: winner,
-        "Team_A.Winner": getresult.Team_A.Winner,
-        "Team_A.Runs": getresult.Team_A.Runs,
-        "Team_B.Winner": getresult.Team_B.Winner,
-        "Team_B.Runs": getresult.Team_B.Runs,
-        Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    await livecricketscore.findOneAndUpdate({organisercode: cd},{
+        $set: {
+            winner: winner
+        }
     })
 
-    console.log(sendresult);
+    getresult = await livecricketscore.findOne({organisercode: cd});
+    console.log("hello");
+
+    var d = new Date();
+
+    // const sendresult = new livecricketresult({
+    //     organisercode: getresult.organisercode,
+    //     vollentiercode: getresult.vollentiercode,
+    //     watchercode: getresult.watchercode,
+    //     winner: winner,
+    //     "Team_A.Winner": getresult.Team_A.Winner,
+    //     "Team_A.Runs": getresult.Team_A.Runs,
+    //     "Team_B.Winner": getresult.Team_B.Winner,
+    //     "Team_B.Runs": getresult.Team_B.Runs,
+    //     Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    // })
+
+    // console.log(sendresult);
 
     // await livecricketscore.updateOne({organisercode: req.params['code']}, {
     //     $set: {
@@ -134,7 +143,7 @@ router.get("/cricket/endresult/:code", async (req,res)=> {
 
     try{
         await sendresult.save();
-        res.status(200).send(winner);
+        res.status(200).send(getresult);
     }catch(e){
         console.log("error");
         res.status(400).send({msg: "fail"});
