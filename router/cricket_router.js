@@ -98,9 +98,9 @@ router.get("/cricket/endresult/:code", async (req,res)=> {
     let num2 = getresult.Team_B.Runs;
 
     if(num1 > num2){
-        winner = "Team_A"
+        winner = "Team 1"
     }else if(num1 < num2){
-        winner = "Team_B"
+        winner = "Team 2"
     }else{
         winner = "draw"
     }
