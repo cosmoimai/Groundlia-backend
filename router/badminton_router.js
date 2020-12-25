@@ -308,16 +308,16 @@ router.get("/badminton/endresult/:code", async (req,res)=> {
 
     console.log(sendresult);
 
-    const x = await livebadmintonmatch.updateOne({organisercode: req.params['code']}, {
-        $set: {
-            "Team_A.Members": [],
-            "Team_A.Score":  0,
-            "Team_B.Members": [],
-            "Team_B.Score":  0,
-            "winner": winner,
-            "new": "no",
-        }
-    })
+    // const x = await livebadmintonmatch.updateOne({organisercode: req.params['code']}, {
+    //     $set: {
+    //         "Team_A.Members": [],
+    //         "Team_A.Score":  0,
+    //         "Team_B.Members": [],
+    //         "Team_B.Score":  0,
+    //         "winner": winner,
+    //         "new": "no",
+    //     }
+    // })
 
     //console.log(x);
 

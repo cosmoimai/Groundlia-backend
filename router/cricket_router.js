@@ -121,16 +121,16 @@ router.get("/cricket/endresult/:code", async (req,res)=> {
 
     console.log(sendresult);
 
-    await livecricketscore.updateOne({organisercode: req.params['code']}, {
-        $set: {
-            "Team_A.Members": [],
-            "Team_A.Score":  0,
-            "Team_B.Members": [],
-            "Team_B.Score":  0,
-            "winner": winner,
-            "new": "no",
-        }
-    })
+    // await livecricketscore.updateOne({organisercode: req.params['code']}, {
+    //     $set: {
+    //         "Team_A.Members": [],
+    //         "Team_A.Score":  0,
+    //         "Team_B.Members": [],
+    //         "Team_B.Score":  0,
+    //         "winner": winner,
+    //         "new": "no",
+    //     }
+    // })
 
     try{
         await sendresult.save();
