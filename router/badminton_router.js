@@ -206,14 +206,17 @@ router.get("/badminton/:code", async (req,res) =>{
         })
     }
     else{
-        if(orgmember!==undefined){
-            //console.log("hello");
+        if(orgmember!==null){
+            console.log("hello");
+            console.log(orgmember);
             return res.status(200).send({data: orgmember, msg: "Success", role: "Organiser"})
         }
-        else if(volmember!==undefined){
-            return res.status(200).send({...volmember, msg: "Success", role: "Volnteer"})
-        }else if (watmember!==undefined){
-            return res.status(200).send({...watmember, msg: "Success", role: "Watcher"})
+        else if(volmember!==null){
+            console.log(volmember)
+            return res.status(200).send({data: volmember, msg: "Success", role: "Volnteer"})
+        }else if (watmember!==null){
+            console.log(watmember)
+            return res.status(200).send({data: watmember, msg: "Success", role: "Watcher"})
         }
         else{
             return res.status(404).send({ msg: "Fali"})
