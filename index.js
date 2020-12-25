@@ -7,7 +7,7 @@ const Scoreresult = require("./models/Scoreresults");
 const Players_record = require("./models/Players_record");
 const Getresult = require("./router/Getresults");
 const badminton_router = require("./router/badminton_router");
-
+const basketball_router = require("./router/basketball_router");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -16,6 +16,7 @@ app.use(userrouter);
 app.use(Ongoing_match);
 app.use(Getresult);
 app.use(badminton_router);
+app.use(basketball_router);
 // app.post("")
 
 app.listen(port, () => {

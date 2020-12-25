@@ -50,7 +50,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
 
     let bas_match = new livebasketballscore({
         organisercode: orgcode,
-        volunteercode: volcode,
+        vollentiercode: volcode,
         watchercode: watcode,
         Team_A: {
             Members: [],
@@ -72,7 +72,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
     try{
         await bas_match.save();
     } catch(e){
-        return res.status(400).send({msg: "Fail"});
+        return res.status(400).send(e);
     }
 
 
