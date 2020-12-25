@@ -272,16 +272,25 @@ router.post("/badminton/update/:code/:winner/:new", async (req,res)=> {
 })
 
 router.get("/badminton/endresult/:code", async (req,res)=> {
-    const getresult = livebadmintonmatch.find({organisercode: req.params['code']});
+    console.log(req.params['code'])
+    const cd=req.params['code']
+    const getresult = await livebadmintonmatch.findOne({organisercode: cd});
     
+    //console.log(getresult);
     let winner
-    if(getresult.Team_A.Score>getresult.Team_A.Score){
-        winner = JSON.stringify(getresult.Team_A.Members)
-    }else if(getresult.Team_A.Score<getresult.Team_A.Score){
-        winner = JSON.stringify(getresult.Team_B.Members); 
+
+    let num1 = getresult.Team_A.Score;
+    let num2 = getresult.Team_B.Score;
+
+    if(num1 > num2){
+        winner = "Team_A"
+    }else if(num1 < num2){
+        winner = "Team_B"
     }else{
         winner = "draw"
     }
+
+    console.log("hello");
 
     var d = new Date();
 
@@ -290,25 +299,31 @@ router.get("/badminton/endresult/:code", async (req,res)=> {
         vollentiercode: getresult.vollentiercode,
         watchercode: getresult.watchercode,
         winner: winner,
-        Team_A: getresult.Team_A,
-        Team_B: getresult.Team_B,
+        "Team_A.Members": getresult.Team_A.Members,
+        "Team_A.Score": getresult.Team_A.Score,
+        "Team_B.Members": getresult.Team_B.Members,
+        "Team_B.Score": getresult.Team_B.Score,
         Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
     })
 
-    await livebadmintonmatch.updateOne({organisercode: req.params['code']}, {
+    console.log(sendresult);
+
+    const x = await livebadmintonmatch.updateOne({organisercode: req.params['code']}, {
         $set: {
             "Team_A.Members": [],
             "Team_A.Score":  0,
             "Team_B.Members": [],
             "Team_B.Score":  0,
-            "winner": "no",
+            "winner": winner,
             "new": "yes",
         }
     })
 
+    //console.log(x);
+
     try{
         await sendresult.save();
-        res.status(200).send(sendresult);
+        res.status(200).send(winner);
     }catch(e){
         console.log("error");
         res.status(400).send({msg: "fail"});
