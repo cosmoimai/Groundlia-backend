@@ -137,10 +137,10 @@ router.get("/basketball/endresult/:code", async (req,res)=> {
 
     try{
         await sendresult.save();
-        res.status(200).send(getresult);
+        return res.status(200).send(getresult);
     }catch(e){
         console.log("error");
-        res.status(400).send({msg: "fail"});
+        return res.status(400).send({msg: "fail"});
     }
 })
 
