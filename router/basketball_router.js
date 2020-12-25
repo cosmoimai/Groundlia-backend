@@ -17,13 +17,16 @@ router.get("/basketball/:code", async (req,res) =>{
         })
     }
     else{
-        if(orgmember!==undefined){
+        if(orgmember!==null){
             //console.log("hello");
+            console.log(orgmember);
             return res.status(200).send({data: orgmember, msg: "Success", role: "Organiser"})
         }
-        else if(volmember!==undefined){
+        else if(volmember!==null){
+            console.log(volmember);
             return res.status(200).send({data: volmember, msg: "Success", role: "Volnteer"})
-        }else if (watmember!==undefined){
+        }else if (watmember!==null){
+            console.log(watmember);
             return res.status(200).send({data: watmember, msg: "Success", role: "Watcher"})
         }
         else{
