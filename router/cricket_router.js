@@ -142,7 +142,7 @@ router.get("/cricket/endresult/:code", async (req,res)=> {
     // })
 
     try{
-        await sendresult.save();
+        //await sendresult.save();
         res.status(200).send(getresult);
     }catch(e){
         console.log("error");

@@ -84,12 +84,14 @@ router.get("/basketball/endresult/:code", async (req,res)=> {
     console.log(req.params['code'])
     const cd=req.params['code']
 
-    const getresult = await livebasketballscore.find({organisercode: req.params['code']});
-    
+    let getresult = await livebasketballscore.findOne({organisercode: cd});
+    //console.log(getresult);
     let winner
 
+    console.log(getresult.Team_A.Score , getresult.Team_B.Score)
     let num1 = getresult.Team_A.Score;
     let num2 = getresult.Team_B.Score;
+
 
     if(num1 > num2){
         winner = "Team 1"
@@ -136,7 +138,7 @@ router.get("/basketball/endresult/:code", async (req,res)=> {
     // })
 
     try{
-        await sendresult.save();
+        //await sendresult.save();
         return res.status(200).send(getresult);
     }catch(e){
         console.log("error");

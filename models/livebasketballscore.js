@@ -5,20 +5,14 @@ const livebasketballscore = mongoose.model('livebasketballscore',{
     organisercode: {
         type: String,
         trim: true,
-        required: true,
-        unique: true,  
     },
     vollentiercode:{
         type: String,
-        trim: true,
-        required: true,
-        unique: true,  
+        trim: true,  
     },
     watchercode:{
         type: String,
-        trim: true,
-        required: true,
-        unique: true,  
+        trim: true,  
     },
     winner: {
         type: String,
