@@ -88,9 +88,9 @@ router.post("/cricket/update/:code/:winner/:new", async (req,res)=> {
 
 router.get("/cricket/endresult/:code", async (req,res)=> {
     console.log(req.params['code'])
-    const cd=req.params['code']
+    let cd=req.params['code']
 
-    const getresult = await livecricketscore.find({organisercode: req.params['code']});
+    let getresult = await livecricketscore.find({organisercode: req.params['code']});
     
     let winner
 
