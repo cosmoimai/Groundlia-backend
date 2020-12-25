@@ -39,7 +39,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         vollentiercode: volcode,
         watchercode: watcode,
         winner: "no",
-        new: "no",
+        new: "yes",
         Team_A: {
             Members: [],
             Score: 0,
@@ -55,7 +55,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         vollentiercode: volcode,
         watchercode: watcode,
         winner: "no",
-        new: "no",
+        new: "yes",
         Team_A: {
             Members: [],
             Score: 0,
