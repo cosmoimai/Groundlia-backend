@@ -274,7 +274,7 @@ router.post("/badminton/update/:code/:winner/:new", async (req,res)=> {
 router.get("/badminton/endresult/:code", async (req,res)=> {
     console.log(req.params['code'])
     const cd=req.params['code']
-    const getresult = await livebadmintonmatch.findOne({organisercode: cd});
+    let getresult = await livebadmintonmatch.findOne({organisercode: cd});
     
     //console.log(getresult);
     let winner
@@ -290,23 +290,31 @@ router.get("/badminton/endresult/:code", async (req,res)=> {
         winner = "draw"
     }
 
+    await livebadmintonmatch.findOneAndUpdate({organisercode: cd},{
+        $set: {
+            winner: winner
+        }
+    })
+
+    getresult = await livebadmintonmatch.findOne({organisercode: cd});
     console.log("hello");
 
     var d = new Date();
 
-    const sendresult = new livebadmintonresults({
-        organisercode: getresult.organisercode,
-        vollentiercode: getresult.vollentiercode,
-        watchercode: getresult.watchercode,
-        winner: winner,
-        "Team_A.Members": getresult.Team_A.Members,
-        "Team_A.Score": getresult.Team_A.Score,
-        "Team_B.Members": getresult.Team_B.Members,
-        "Team_B.Score": getresult.Team_B.Score,
-        Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
-    })
+    // const sendresult = new livebadmintonresults({
+    //     organisercode: getresult.organisercode,
+    //     vollentiercode: getresult.vollentiercode,
+    //     watchercode: getresult.watchercode,
+    //     winner: winner,
+    //     "Team_A.Members": getresult.Team_A.Members,
+    //     "Team_A.Score": getresult.Team_A.Score,
+    //     "Team_B.Members": getresult.Team_B.Members,
+    //     "Team_B.Score": getresult.Team_B.Score,
+    //     Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    // })
 
-    console.log(sendresult);
+    // console.log("here")
+    // console.log(sendresult);
 
     // const x = await livebadmintonmatch.updateOne({organisercode: req.params['code']}, {
     //     $set: {
@@ -322,11 +330,11 @@ router.get("/badminton/endresult/:code", async (req,res)=> {
     //console.log(x);
 
     try{
-        await sendresult.save();
-        res.status(200).send(winner);
+        //await sendresult.save();
+        return res.status(200).send(getresult);
     }catch(e){
-        console.log("error");
-        res.status(400).send({msg: "fail"});
+        console.log(e);
+        return res.status(400).send({msg: "fail"});
     }
 })
 

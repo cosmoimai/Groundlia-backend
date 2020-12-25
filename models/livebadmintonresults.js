@@ -41,9 +41,7 @@ const livebadmintonresults = mongoose.model('livebadmintonresults',{
     Date: {
         type: String,
         trim: true
-    }
-    
-
+    }   
 })
 
 module.exports = livebadmintonresults;
