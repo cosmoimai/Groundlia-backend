@@ -4,6 +4,7 @@ const router = new express.Router();
 var generator = require('generate-password');
 const livebadmintonmatch = require("../models/livebadmintonmatch");
 const livebasketballscore = require("../models/livebasketballscore");
+const livecricketscore = require("../models/livecricketscore");
 
 router.get("/", async (req,res)=>{
     console.log("hello");
@@ -66,6 +67,26 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         }
     })
 
+    let cri_match = new livecricketscore({
+        organisercode: orgcode,
+        vollentiercode: volcode,
+        watchercode: watcode,
+        winner: "no",
+        new: "yes",
+        Team_A: {
+            Members: [],
+            Runs: 0,
+            Wickets: 0,
+            Mode: "Toss",
+        },
+        Team_B: {
+            Members: [],
+            Runs: 0,
+            Wickets: 0,
+            Mode: "Toss",
+        }
+    })
+
     try{
         console.log("hello");
         await bad_match.save().then((err,done)=>{
@@ -89,6 +110,19 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
             console.log("done",done)
         });
         console.log("bas");
+    } catch(e){
+        return res.status(400).send(e);
+    }
+
+    try{
+        await cri_match.save().then((err,done)=>{
+            if(err)
+            {
+                console.log("error",err)
+            }
+            console.log("done",done)
+        });
+        console.log("cri");
     } catch(e){
         return res.status(400).send(e);
     }

@@ -40,6 +40,10 @@ const livecricketscore = mongoose.model('livecricketscore',{
         Wickets: {
             type: Number,
             trim: true,
+        },
+        Mode: {
+            type: String,
+            trim: true
         }
     },
     Team_B: {
@@ -54,6 +58,10 @@ const livecricketscore = mongoose.model('livecricketscore',{
         Wickets: {
             type: Number,
             trim: true,
+        },
+        Mode: {
+            type: String,
+            trim: true
         }
     }
     

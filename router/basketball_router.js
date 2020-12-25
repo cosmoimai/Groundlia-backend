@@ -122,7 +122,7 @@ router.get("/basketball/endresult/:code", async (req,res)=> {
             "Team_B.Members": [],
             "Team_B.Score":  0,
             "winner": winner,
-            "new": "yes",
+            "new": "no",
         }
     })
 
