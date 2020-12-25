@@ -5,6 +5,9 @@ const badminton_profile = require("../models/badminton_profile");
 const badminton_results = require("../models/badminton_results");
 const User = require("../models/users");
 const livebadmintonmatch = require("../models/livebadmintonmatch");
+const { get } = require("mongoose");
+const { update } = require("../models/users");
+const livebadmintonresults = require("../models/livebadmintonresults");
 const router = new express.Router();
 
 router.post("/badminton/singles/result", async (req,res) =>{
@@ -266,6 +269,50 @@ router.post("/badminton/update/:code/:winner/:new", async (req,res)=> {
 
 
     return res.status(200).send(orgmember);
+})
+
+router.get("/badminton/endresult/:code", async (req,res)=> {
+    const getresult = livebadmintonmatch.find({organisercode: req.params['code']});
+    
+    let winner
+    if(getresult.Team_A.Score>getresult.Team_A.Score){
+        winner = JSON.stringify(getresult.Team_A.Members)
+    }else if(getresult.Team_A.Score<getresult.Team_A.Score){
+        winner = JSON.stringify(getresult.Team_B.Members); 
+    }else{
+        winner = "draw"
+    }
+
+    var d = new Date();
+
+    const sendresult = new livebadmintonresults({
+        organisercode: getresult.organisercode,
+        vollentiercode: getresult.vollentiercode,
+        watchercode: getresult.watchercode,
+        winner: winner,
+        Team_A: getresult.Team_A,
+        Team_B: getresult.Team_B,
+        Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    })
+
+    await livebadmintonmatch.updateOne({organisercode: req.params['code']}, {
+        $set: {
+            "Team_A.Members": [],
+            "Team_A.Score":  0,
+            "Team_B.Members": [],
+            "Team_B.Score":  0,
+            "winner": "no",
+            "new": "yes",
+        }
+    })
+
+    try{
+        await sendresult.save();
+        res.status(200).send(sendresult);
+    }catch(e){
+        console.log("error");
+        res.status(400).send({msg: "fail"});
+    }
 })
 
 

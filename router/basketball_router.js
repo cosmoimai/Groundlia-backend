@@ -1,4 +1,5 @@
 const express = require("express");
+const livebasketballresult = require("../models/livebasketballresult");
 const router = new express.Router();
 const livebasketballscore = require("../models/livebasketballscore");
 
@@ -77,6 +78,50 @@ router.post("/basketball/update/:code/:winner/:new", async (req,res)=> {
 
 
     return res.status(200).send(orgmember);
+})
+
+router.get("/basketball/endresult/:code", async (req,res)=> {
+    const getresult = livebasketballscore.find({organisercode: req.params['code']});
+    
+    let winner
+    if(getresult.Team_A.Score>getresult.Team_A.Score){
+        winner = JSON.stringify(getresult.Team_A.Members)
+    }else if(getresult.Team_A.Score<getresult.Team_A.Score){
+        winner = JSON.stringify(getresult.Team_B.Members); 
+    }else{
+        winner = "draw"
+    }
+
+    var d = new Date();
+
+    const sendresult = new livebasketballresult({
+        organisercode: getresult.organisercode,
+        vollentiercode: getresult.vollentiercode,
+        watchercode: getresult.watchercode,
+        winner: winner,
+        Team_A: getresult.Team_A,
+        Team_B: getresult.Team_B,
+        Date: `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} Time: ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+    })
+
+    await livebasketballscore.updateOne({organisercode: req.params['code']}, {
+        $set: {
+            "Team_A.Members": [],
+            "Team_A.Score":  0,
+            "Team_B.Members": [],
+            "Team_B.Score":  0,
+            "winner": "no",
+            "new": "no",
+        }
+    })
+
+    try{
+        await sendresult.save();
+        res.status(200).send(sendresult);
+    }catch(e){
+        console.log("error");
+        res.status(400).send({msg: "fail"});
+    }
 })
 
 module.exports = router;

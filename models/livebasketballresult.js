@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const livebadmintonresults = mongoose.model('livebadmintonresults',{
+const livebasketballresult = mongoose.model('livebasketballresult',{
     organisercode: {
         type: String,
         trim: true,
@@ -24,6 +24,10 @@ const livebadmintonresults = mongoose.model('livebadmintonresults',{
         type: String,
         trim: true
     },
+    new: {
+        type: String,
+        trim: true,
+    },
     Team_A: {
         Members: {
             type: [String],
@@ -43,13 +47,9 @@ const livebadmintonresults = mongoose.model('livebadmintonresults',{
             type: Number,
             trim: true,
         }
-    },
-    Date: {
-        type: Date,
-        trim: true
     }
     
 
 })
 
-module.exports = livebadmintonresults;
+module.exports = livebasketballresult;
