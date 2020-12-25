@@ -3,6 +3,7 @@ const User = require("../models/users")
 const router = new express.Router();
 var generator = require('generate-password');
 const livebadmintonmatch = require("../models/livebadmintonmatch");
+const livebasketballscore = require("../models/livebasketballscore");
 
 router.get("/", async (req,res)=>{
     console.log("hello");
@@ -47,9 +48,29 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         }
     })
 
+    let bas_match = new livebasketballscore({
+        organisercode: orgcode,
+        volunteercode: volcode,
+        watchercode: watcode,
+        Team_A: {
+            Members: [],
+            Score: 0,
+        },
+        Team_B: {
+            Members: [],
+            Score: 0,
+        }
+    })
+
     try{
         console.log("hello");
         await bad_match.save();
+    } catch(e){
+        return res.status(400).send({msg: "Fail"});
+    }
+
+    try{
+        await bas_match.save();
     } catch(e){
         return res.status(400).send({msg: "Fail"});
     }
