@@ -53,8 +53,8 @@ router.post("/basketball/update/:code/:winner/:new", async (req,res)=> {
     orgmember.Team_B.Members = B
     orgmember.Team_B.Score = req.body.Team_B.Score
 
-    orgmember.winner = req.body.winner
-    orgmember.new = req.body.new
+    orgmember.winner = req.params['winner']
+    orgmember.new = req.params['new']
     console.log(orgmember);
     
     try{
@@ -64,8 +64,8 @@ router.post("/basketball/update/:code/:winner/:new", async (req,res)=> {
                 "Team_A.Score":  req.body.Team_A.Score,
                 "Team_B.Members": B,
                 "Team_B.Score":  req.body.Team_B.Score,
-                "winner": req.body.winner,
-                "new": req.body.new
+                "winner": req.params['winner'],
+                "new": req.params['new']
             }
         })
     }catch(e){
