@@ -72,8 +72,12 @@ router.post("/cricket/update/:code/:winner/:new", async (req,res)=> {
             $set: {
                 "Team_A.Members": A,
                 "Team_A.Runs":  req.body.Team_A.Runs,
+                "Team_A.Wickets": req.body.Team_A.Wickets,
+                "Team_A.Mode": req.body.Team_A.Mode,
                 "Team_B.Members": B,
                 "Team_B.Runs":  req.body.Team_B.Runs,
+                "Team_B.Wickets": req.body.Team_B.Wickets,
+                "Team_B.Mode": req.body.Team_B.Mode,
                 "winner": req.params['winner'],
                 "new": req.params['new']
             }
@@ -88,12 +92,12 @@ router.post("/cricket/update/:code/:winner/:new", async (req,res)=> {
 
 router.get("/cricket/endresult/:code", async (req,res)=> {
     console.log(req.params['code'])
-    let cd=req.params['code']
+    const cd=req.params['code']
 
-    let getresult = await livecricketscore.find({organisercode: req.params['code']});
-    
+    let getresult = await livecricketscore.findOne({organisercode: cd});
+    console.log(getresult);
     let winner
-
+    console.log(getresult.Team_A.Runs , getresult.Team_B.Runs)
     let num1 = getresult.Team_A.Runs;
     let num2 = getresult.Team_B.Runs;
 
