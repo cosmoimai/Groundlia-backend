@@ -73,6 +73,7 @@ router.get("/organisers/:name/:email/:location", async (req,res) => {
         watchercode: watcode,
         winner: "no",
         new: "yes",
+        overs: "0",
         Team_A: {
             Members: [],
             Runs: 0,

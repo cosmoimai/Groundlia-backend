@@ -28,6 +28,10 @@ const livecricketscore = mongoose.model('livecricketscore',{
         type: String,
         trim: true,
     },
+    overs: {
+        type: String,
+        trim: true,
+    },
     Team_A: {
         Members: {
             type: [String],

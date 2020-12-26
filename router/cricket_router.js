@@ -79,7 +79,8 @@ router.post("/cricket/update/:code/:winner/:new", async (req,res)=> {
                 "Team_B.Wickets": req.body.Team_B.Wickets,
                 "Team_B.Mode": req.body.Team_B.Mode,
                 "winner": req.params['winner'],
-                "new": req.params['new']
+                "new": req.params['new'],
+                "overs": req.body.overs
             }
         })
     }catch(e){
